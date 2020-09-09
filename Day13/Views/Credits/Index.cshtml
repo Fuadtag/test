@@ -1,0 +1,54 @@
+﻿@model List<Contract>
+@{
+    ViewData["Title"] = "Kreditlər";
+}
+
+<h1>Kreditlər</h1>
+<div class="row mt-4">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Şəxs</th>
+                    <th scope="col">Məhsul adı</th>
+                    <th scope="col">Kredit məbləği</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.Person.Name @item.Person.Surname</th>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Cost.ToString("#.00") ₼</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-success open-info-modal" data-id="@item.Id">
+                                Ətraflı
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="creditInfoModal" tabindex="-1" aria-labelledby="creditInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="creditInfoModalLabel">Kredit məlumatı</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+            </div>
+        </div>
+    </div>
+</div>

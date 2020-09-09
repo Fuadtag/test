@@ -1,0 +1,98 @@
+﻿@model Contract
+<div class="row">
+    <div class="col-lg-6">
+        <h5>Şəxs məlumatları</h5>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Ad</strong>
+                <span>@Model.Person.Name</span>
+            </li>
+            <li class="list-group-item">
+                <strong>Soyad</strong>
+                <span>@Model.Person.Surname</span>
+            </li>
+            <li class="list-group-item">
+                <strong>Telefon</strong>
+                <span>@Model.Person.Phone</span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-6">
+        <h5>Müqavilə məlumatları</h5>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Vəziyyəti</strong>
+
+                @if (Model.Month == Model.Payments.Count(p => p.IsPaid))
+                {
+                    <span class="badge badge-success">Tamamlanmış</span>
+                }
+                else
+                {
+                    <span class="badge badge-info">Davam edən</span>
+                }
+
+            </li>
+            <li class="list-group-item">
+                <strong>Tarix</strong>
+                <span>@Model.Date.ToString("dd.MM.yyyy")</span>
+            </li>
+            <li class="list-group-item">
+                <strong>Məhsul adı</strong>
+                <span>@Model.Product.Name</span>
+            </li>
+            <li class="list-group-item">
+                <strong>Kredit müddəti</strong>
+                <span>@Model.Month ay</span>
+            </li>
+            <li class="list-group-item">
+                <strong>Kredit ümümi məbləği</strong>
+                <span>@Model.Cost.ToString("#.00") ₼</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-lg-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Məbləğ</th>
+                    <th scope="col">Ödənilməli tarix</th>
+                    <th scope="col">Vəziyyəti</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ 
+                    int i = 1;
+                }
+                @foreach (var payment in Model.Payments)
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@payment.Value.ToString("#.00") ₼</td>
+                        <td>@payment.Date.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            @if (payment.IsPaid)
+                            {
+                                <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="@payment.PayDate.Value.ToString("HH:mm dd.MM.yyyy")">Ödənilib</span>
+                            }
+                            else
+                            {
+                                if (DateTime.Now.Date > payment.Date)
+                                {
+                                    <span class="badge badge-danger">Gecikmə</span>
+                                }
+                            }
+
+                        </td>
+                    </tr>
+
+                    i++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
